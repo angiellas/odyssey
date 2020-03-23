@@ -6,7 +6,6 @@ export default class SignUp extends Component {
     this.state = {
       email: ""
     };
-    this.onChange = this.updateEmailField.bind(this);
   }
 
   updateEmailField = e => {
