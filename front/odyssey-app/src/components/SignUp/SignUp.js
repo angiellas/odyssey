@@ -10,12 +10,6 @@ export default class SignUp extends Component {
       password: "",
       passwordconf: ""
     };
-    this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
-    this.handleLastNameChange = this.handleLastNameChange.bind(this);
-    this.handleEmailChange = this.handleEmailChange.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    this.handlePassConfChange = this.handlePassConfChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleFirstNameChange = e => {
