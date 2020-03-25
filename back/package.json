@@ -1,0 +1,16 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Wild server",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "wilder",
+  "dependencies": {
+    "body-parser": "^6.14.2",
+    "express": "^6.14.2",
+    "morgan": "^1.10.0"
+  },
+  "license": "ISC"
+}
