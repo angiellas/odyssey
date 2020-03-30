@@ -8,7 +8,8 @@ export default class SignUp extends Component {
       lastname: "",
       email: "",
       password: "",
-      passwordconf: ""
+      passwordconf: "",
+      flash: ""
     };
   }
 
@@ -43,15 +44,26 @@ export default class SignUp extends Component {
   };
 
   handleSubmit = e => {
-    console.log(`A subscription was submitted: ${JSON.stringify(this.state)}`);
     e.preventDefault();
+    fetch("/auth/signup", {
+      method: "POST",
+      headers: new Headers({
+        "Content-Type": "application/json"
+      }),
+      body: JSON.stringify(this.state)
+    })
+      .then(res => res.json())
+      .then(
+        res => this.setState({ flash: res.flash }),
+        err => this.setState({ flash: err.flash })
+      );
   };
 
   render() {
     return (
       <div>
         <h1>{JSON.stringify(this.state)}</h1>
-        <form>
+        <form onSubmit={this.handleSubmit}>
           <input
             type="text"
             id="firstname"
@@ -91,8 +103,9 @@ export default class SignUp extends Component {
             value={this.state.passwordconf}
           />
 
-          <button onClick={this.handleSubmit}>Sign up</button>
+          <input type="submit" value="Submit" />
         </form>
+        {this.state.flash && <p>{this.state.flash}</p>}
       </div>
     );
   }
