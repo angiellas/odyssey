@@ -1,0 +1,16 @@
+.submitbutton {
+  text-align: right;
+  margin-right: 30px;
+  margin-top: 30px;
+}
+
+.form {
+  margin: 40px;
+}
+
+.snackbar {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  align-content: center;
+}
