@@ -1,4 +1,9 @@
 import React, { Component } from "react";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import { SnackbarContent } from "@material-ui/core";
+import Box from "@material-ui/core/Box";
+import "./signup.css";
 
 export default class SignUp extends Component {
   constructor(props) {
@@ -61,51 +66,77 @@ export default class SignUp extends Component {
 
   render() {
     return (
-      <div>
-        <h1>{JSON.stringify(this.state)}</h1>
-        <form onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            id="firstname"
-            name="firstname"
-            onChange={this.handleFirstNameChange}
-            value={this.state.firstname}
-          />
+      <div className="signup">
+        <div className="signup-content">
+          <h1>Sign up</h1>
+          <form onSubmit={this.handleSubmit} className="form">
+            <TextField
+              type="text"
+              id="firstname"
+              label="First Name"
+              name="firstname"
+              fullWidth
+              onChange={this.handleFirstNameChange}
+              value={this.state.firstname}
+            />
 
-          <input
-            type="text"
-            id="lastname"
-            name="lastname"
-            onChange={this.handleLastNameChange}
-            value={this.state.lastname}
-          />
-          <input
-            type="email"
-            id="email"
-            name="email"
-            onChange={this.handleEmailChange}
-            value={this.state.email}
-          />
+            <TextField
+              type="text"
+              id="lastname"
+              label="Last Name"
+              name="lastname"
+              fullWidth
+              onChange={this.handleLastNameChange}
+              value={this.state.lastname}
+            />
+            <TextField
+              type="email"
+              id="email"
+              label="Email"
+              name="email"
+              fullWidth
+              onChange={this.handleEmailChange}
+              value={this.state.email}
+            />
 
-          <input
-            type="password"
-            id="password"
-            name="password"
-            onChange={this.handlePasswordChange}
-            value={this.state.password}
-          />
+            <TextField
+              type="password"
+              id="password"
+              label="Password"
+              name="password"
+              fullWidth
+              onChange={this.handlePasswordChange}
+              value={this.state.password}
+            />
 
-          <input
-            type="password"
-            id="passwordconf"
-            name="passwordconf"
-            onChange={this.handlePassConfChange}
-            value={this.state.passwordconf}
-          />
-
-          <input type="submit" value="Submit" />
-        </form>
-        {this.state.flash && <p>{this.state.flash}</p>}
+            <TextField
+              type="password"
+              id="passwordconf"
+              label="Confirm Password"
+              name="passwordconf"
+              fullWidth
+              onChange={this.handlePassConfChange}
+              value={this.state.passwordconf}
+            />
+            <div className="submitbutton">
+              <Button
+                variant="contained"
+                color="inherit"
+                onClick={this.handleSubmit}
+              >
+                Sign up
+              </Button>
+            </div>
+          </form>
+        </div>
+        <div className="snackbar">
+          {this.state.flash ? (
+            <SnackbarContent
+              anchorOrigin={"bottom, center"}
+              message={this.state.flash}
+            />
+          ) : null}
+        </div>
       </div>
     );
   }
