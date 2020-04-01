@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link, Redirect } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { SnackbarContent } from "@material-ui/core";
@@ -14,7 +15,8 @@ export default class SignUp extends Component {
       email: "",
       password: "",
       passwordconf: "",
-      flash: ""
+      flash: "",
+      signup: false
     };
   }
 
@@ -62,6 +64,16 @@ export default class SignUp extends Component {
         res => this.setState({ flash: res.flash }),
         err => this.setState({ flash: err.flash })
       );
+  };
+
+  setSignUp = () => {
+    this.setState({ signup: true });
+  };
+
+  renderSignUp = () => {
+    if (this.state.signup) {
+      return <Redirect to="/" />;
+    }
   };
 
   render() {
@@ -119,23 +131,32 @@ export default class SignUp extends Component {
               value={this.state.passwordconf}
             />
             <div className="submitbutton">
+              {this.renderSignUp()}
               <Button
                 variant="contained"
-                color="inherit"
-                onClick={this.handleSubmit}
+                color="primary"
+                onClick={this.setSignUp}
               >
-                Sign up
+                Register
               </Button>
             </div>
+            <div className="submitbutton">
+              <Link to="/signin">
+                <Button variant="contained" color="primary">
+                  Sign in
+                </Button>
+              </Link>
+            </div>
           </form>
-        </div>
-        <div className="snackbar">
-          {this.state.flash ? (
-            <SnackbarContent
-              anchorOrigin={"bottom, center"}
-              message={this.state.flash}
-            />
-          ) : null}
+
+          <div className="snackbar">
+            {this.state.flash ? (
+              <SnackbarContent
+                anchorOrigin={"bottom, center"}
+                message={this.state.flash}
+              />
+            ) : null}
+          </div>
         </div>
       </div>
     );
