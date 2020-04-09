@@ -10,7 +10,7 @@ export default class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstname: "",
+      name: "",
       lastname: "",
       email: "",
       password: "",
@@ -22,7 +22,7 @@ export default class SignUp extends Component {
 
   handleFirstNameChange = e => {
     this.setState({
-      firstname: e.target.value
+      name: e.target.value
     });
   };
 
@@ -64,14 +64,11 @@ export default class SignUp extends Component {
         res => this.setState({ flash: res.flash }),
         err => this.setState({ flash: err.flash })
       );
-  };
-
-  setSignUp = () => {
     this.setState({ signup: true });
   };
 
   renderSignUp = () => {
-    if (this.state.signup) {
+    if (this.state.signup === true) {
       return <Redirect to="/" />;
     }
   };
@@ -84,12 +81,12 @@ export default class SignUp extends Component {
           <form onSubmit={this.handleSubmit} className="form">
             <TextField
               type="text"
-              id="firstname"
+              id="name"
               label="First Name"
-              name="firstname"
+              name="name"
               fullWidth
               onChange={this.handleFirstNameChange}
-              value={this.state.firstname}
+              value={this.state.name}
             />
 
             <TextField
@@ -135,7 +132,7 @@ export default class SignUp extends Component {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={this.setSignUp}
+                onClick={this.handleSubmit}
               >
                 Register
               </Button>
@@ -149,14 +146,14 @@ export default class SignUp extends Component {
             </div>
           </form>
 
-          <div className="snackbar">
+          {/* <div className="snackbar">
             {this.state.flash ? (
               <SnackbarContent
                 anchorOrigin={"bottom, center"}
                 message={this.state.flash}
               />
             ) : null}
-          </div>
+          </div> */}
         </div>
       </div>
     );
