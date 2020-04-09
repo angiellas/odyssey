@@ -47,20 +47,29 @@ passport.use(
       session: false,
     },
     (email, password, done) => {
-      connection
-        .query("SELECT * FROM users WHERE email = ?", [email])
-        .then((foundUser) => {
-          !foundUser &&
-            done(null, false, { message: "Can't find a user with this email" });
+      connection.query(
+        "SELECT * FROM users WHERE email = ?",
+        [email],
+        (error, results, fields) => {
+          const foundUser = results[0];
+          if (!foundUser) {
+            return done(null, false, {
+              message: "Can't find a user with this email",
+            });
+          }
 
           bcrypt
             .compare(password, foundUser.password)
-            .then((isUser) => isUser && done(null, foundUser))
-            .catch((compareErr) =>
-              console.error(`Compare error: ${compareErr}`)
-            );
-        })
-        .catch((queryError) => console.error(`Query error ${queryError}`));
+            .then((isPasswordCorrect) => {
+              if (isPasswordCorrect) {
+                done(null, foundUser);
+              } else {
+                done(null, false, { message: "Wrong password" });
+              }
+            })
+            .catch((error) => console.error(`Compare error: ${error}`));
+        }
+      );
     }
   )
 );
@@ -72,18 +81,29 @@ passport.use(
       secretOrKey: process.env.ACCESS_TOKEN_SECRET,
     },
     (jwtPayLoad, done) => {
-      connection
-        .query("SELECT * FROM users WHERE email = ?", [jwtPayLoad.email])
-        .then((user) => done(null, user))
-        .catch((jwtErr) => console.error(`JWT Error: ${jwtErr}`));
+      connection.query(
+        "SELECT * FROM users WHERE email = ?",
+        [jwtPayLoad.email],
+        (error, results) => {
+          if (error) {
+            return done(error);
+          }
+          const user = results[0];
+          return done(null, user);
+        }
+      );
     }
   )
 );
 
 router.post("/signin", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
-    err && res.status(500).send(err);
-    !user && res.status(400).send({ message: info.message });
+    if (err) {
+      return res.status(500).send(err);
+    }
+    if (!user) {
+      return res.status(400).json({ message: info.message });
+    }
 
     const token = jwt.sign(
       JSON.stringify(user),
@@ -97,7 +117,7 @@ router.get(
   "/profile",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    res.status(200).send("In profile" + req.user);
+    res.status(200).send(req.user);
   }
 );
 
