@@ -10,7 +10,7 @@ class Profile extends React.Component {
     this.state = {
       profile: {
         email: "",
-        firstname: "",
+        name: "",
         lastname: ""
       }
     };
@@ -18,13 +18,10 @@ class Profile extends React.Component {
   render() {
     return (
       <div className="profile">
-        <h1>This is your profile, {this.state.profile.firstname}</h1>
+        <h1>This is your profile, {this.state.profile.name}</h1>
         <List>
           <ListItem>
-            <ListItemText
-              primary="Name"
-              secondary={this.state.profile.firstname}
-            />
+            <ListItemText primary="Name" secondary={this.state.profile.name} />
           </ListItem>
           <ListItem>
             <ListItemText
